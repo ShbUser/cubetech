@@ -1,0 +1,12 @@
+.offcanvas-menu{
+    width: 5em;
+}
+
+.offcanvas-body p:hover{
+    cursor: pointer;
+    transform: scale(.9);
+}
+/* .humbButn{
+    margin-top: 2em;
+    margin-left: 25em;
+} */

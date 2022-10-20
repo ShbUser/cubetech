@@ -1,0 +1,27 @@
+.RegisterForm{
+    width: 32em;
+    margin-left: 24em;
+    
+}
+.RegisterForm label{
+        color: lightslategrey;
+}
+.RegisterFormTextarea {
+        width: 32em;
+        margin-left: 24em;
+        
+}
+.RegisterFormTextarea label{
+        color: lightslategrey;
+}
+
+/* .RegisterFormTextarea:nth-child(1) {
+        margin-bottom: 20px;
+}
+
+
+.RegisterFormTextarea:first-child
+{
+        margin-bottom: 20px;
+        background-color: red;
+} */
