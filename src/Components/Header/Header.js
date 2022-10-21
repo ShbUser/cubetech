@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Header.css';
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../../Store/Context';
 function Header() {
-  
+  let { user, setUser } = useContext(UserContext)
+
   const navigate = useNavigate()
   return (
     <div>
@@ -26,16 +28,35 @@ function Header() {
               </span>
 
               <span className=' headerLogin ms-5' onClick={() => {
-                navigate('/register')
+                user ?
+                  navigate('/register')
+                  :
+                  navigate('/')
               }}>
                 Register
               </span>
             </div>
-            <span className='headerLogin'
-              onClick={() => {
+            {user ?
+              <span className='headerLogin'
+              >{user ? `welcome ${user.user.username}` : 'Login'}
+              </span>
+
+              : <span className='headerLogin' onClick={() => {
                 navigate('/login')
               }}>Login
-            </span>
+              </span>
+            }
+
+            {
+              user ?
+                <span className='headerLogin'
+                  onClick={() => {
+                    setUser("")
+                    navigate('/')
+                  }}>Logout</span>
+                :
+                <span> </span>
+            }
           </div>
 
 

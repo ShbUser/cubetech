@@ -1,15 +1,38 @@
 import {React, useState} from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import './AdminLogin.css'
 function AdminLogin() {
+    const [wrong,setWrong]=useState('')
+    const navigate=useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const doAdminLogin=(e)=>{
+        e.preventDefault();
+        let data={email,password}
+        axios.post('http://localhost:3000/doAdminLogin',data).then((response)=>{
+            if(response.data.status){
+                // let token=response.data.user.token
+                //  let admin=response.data.admin.admin
+                //  let adminDet={admin}
+                // console.log(userDet);
+                // setUser(adminDet)
+                navigate('/adminhome')
+            }
+                else setWrong('You entered wrong email or password')
+            }).catch(error=>{
+                alert(error)
+            })
+    }    
+
+
   return (
     
     <div>
        <div className='adminloginParentDiv'>
         <h5 className='text-center mt-3'>Admin</h5>
-                <form>
+                <form onSubmit={doAdminLogin}>
                     <div className=" mb-3">
                         <label >Email</label><br/>
                         <input
@@ -17,7 +40,7 @@ function AdminLogin() {
                             type="email"
                             value={email}
                             id="fname"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)+setWrong('')}
                             name="email"
                             defaultValue=""
                             required />
@@ -30,11 +53,12 @@ function AdminLogin() {
                             type="password"
                             value={password}
                             id="lname"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)+setWrong('')}
                             name="password"
                             defaultValue=""
                             required />
                     </div>
+                    <label className='text-danger'>{wrong}</label>
                     <button type="submit" className="btn btn-primary">Login</button>
                     <br />
                 </form>
