@@ -7,6 +7,7 @@ import AdminLogin from './Pages/AdminLogin';
 import AdminHome from './Pages/AdminHome';
 import ApplicationList from './Pages/ApplicationList';
 import Record from './Pages/Record';
+import Slots from './Pages/Slots';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -43,6 +44,10 @@ function App() {
 
         <Routes >
           <Route path='/record'  element={<Record />} />
+        </Routes>
+
+        <Routes >
+          <Route path='/slots'  element={<Slots />} />
         </Routes>
 
       </BrowserRouter>

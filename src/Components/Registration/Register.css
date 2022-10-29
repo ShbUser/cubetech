@@ -1,27 +1,29 @@
+
 .RegisterForm{
-    width: 32em;
-    margin-left: 24em;
+        padding: 1em;
+        width: 30em;
+        height: 28em;
+        margin-left: 24em;
+
+        background-color: rgba(255, 255, 255, 0.4);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+      border-radius: .5em;
     
 }
-.RegisterForm label{
-        color: lightslategrey;
-}
-.RegisterFormTextarea {
-        width: 32em;
-        margin-left: 24em;
+
+.RegisterForm input{
+        width: 20em;
+        margin-left: 4em;
         
-}
-.RegisterFormTextarea label{
-        color: lightslategrey;
-}
-
-/* .RegisterFormTextarea:nth-child(1) {
-        margin-bottom: 20px;
-}
-
-
-.RegisterFormTextarea:first-child
-{
-        margin-bottom: 20px;
-        background-color: red;
-} */
+    }
+    .RegisterForm label{
+        color: white;
+        margin-left: 4em;
+        
+    }
+.grad {
+        margin-left: 24em;
+        width: 30em;
+        background-image: linear-gradient(to right, black, rgba(255,0,0,1));
+      }

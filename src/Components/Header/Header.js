@@ -1,14 +1,30 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Header.css';
 import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../../Store/Context';
+import axios from '../../axios'
+//import { UserContext } from '../../Store/Context';, { useContext }
 function Header() {
-  let { user, setUser } = useContext(UserContext)
+  //let {user} = useContext(UserContext)
+  const [isNewUser, setIsNewUser] = useState('')
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
 
+      axios.get('isNewUser/' + localStorage.getItem('user_id')).then((response) => {
+
+        if (response.data.stat) {
+          setIsNewUser('')
+
+        } else {
+          setIsNewUser('Application')
+
+        }
+      })
+    }
+  }, [])
   const navigate = useNavigate()
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom border-5">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light  fixed-top border-bottom border-5">
         <div className="container-fluid">
           <h3>CUBETECH</h3>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,34 +44,41 @@ function Header() {
               </span>
 
               <span className=' headerLogin ms-5' onClick={() => {
-                user ?
+                localStorage.getItem('token') ?
                   navigate('/register')
                   :
                   navigate('/')
               }}>
-                Register
-              </span>
-            </div>
-            {user ?
-              <span className='headerLogin'
-              >{user ? `welcome ${user.user.username}` : 'Login'}
+                {isNewUser}
               </span>
 
-              : <span className='headerLogin' onClick={() => {
-                navigate('/login')
-              }}>Login
-              </span>
+            </div>
+            {
+              localStorage.getItem('token') ?
+                <span className='headerLogin'>
+
+                  {`welcome ${localStorage.getItem('username')}`}
+                </span>
+
+                : <span className='headerLogin' onClick={() => {
+
+                  navigate('/login')
+                }}>Login
+                </span>
             }
 
             {
-              user ?
-                <span className='headerLogin'
-                  onClick={() => {
-                    setUser("")
-                    navigate('/')
-                  }}>Logout</span>
-                :
-                <span> </span>
+              localStorage.getItem('token') &&
+              <span className='headerLogin'
+                onClick={() => {
+
+                  localStorage.removeItem('token')
+                  localStorage.removeItem('username')
+                  localStorage.removeItem('user_id')
+                  //setUser("")
+                  navigate('/')
+                }}>Logout</span>
+
             }
           </div>
 

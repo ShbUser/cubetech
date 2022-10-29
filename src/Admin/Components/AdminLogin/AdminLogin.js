@@ -14,10 +14,12 @@ function AdminLogin() {
         axios.post('http://localhost:3000/doAdminLogin',data).then((response)=>{
             if(response.data.status){
                 // let token=response.data.user.token
-                //  let admin=response.data.admin.admin
+                  let admin=response.data.admin.admin
+                  
                 //  let adminDet={admin}
                 // console.log(userDet);
                 // setUser(adminDet)
+                localStorage.setItem('AdminEmail', admin.email)
                 navigate('/adminhome')
             }
                 else setWrong('You entered wrong email or password')

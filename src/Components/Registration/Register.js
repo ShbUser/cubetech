@@ -1,122 +1,146 @@
-import { React, useState, useContext } from 'react'
+import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../../Store/Context'
-import axios from 'axios'
+//import { UserContext } from '../../Store/Context' useContext, useEffect 
+import axios from '../../axios'
 import './Register.css'
 
 function Register() {
-    const { user } = useContext(UserContext)
+
+    //const { user } = useContext(UserContext)
 
     const navigate = useNavigate()
     let [name, setSubName] = useState('')
-    let [email, setEamil] = useState('')
+    let [email, setEmail] = useState('')
     let [state, setState] = useState('')
     let [country, setCountry] = useState('')
     //let [applied,setApplied]=useState(false)
     let [companyName, setComapanyName] = useState('')
-    let [dTeam, setDTeam] = useState('')
-    let [dCompany, setDCompany] = useState('')
-    let [dProblemSolve, setDProblemSolve] = useState('')
-    let [unique, setUnique] = useState('')
-    let [valueProposition, setValueProposition] = useState('')
-    let [competitorsAndAdvantage, setCompetitorsAndAdvantage] = useState('')
-    let [revenueModel, setRevenueModel] = useState('')
-    let [marketSize, setMarketSize] = useState('')
-    let [marketPlan, setMarketPlan] = useState('')
-    let [proposal, setProposal] = useState('')
-    let [Error, setError] = useState('')
-
+    // let [dTeam, setDTeam] = useState('')
+    // let [dCompany, setDCompany] = useState('')
+    // let [dProblemSolve, setDProblemSolve] = useState('')
+    // let [unique, setUnique] = useState('')
+    // let [valueProposition, setValueProposition] = useState('')
+    // let [competitorsAndAdvantage, setCompetitorsAndAdvantage] = useState('')
+    // let [revenueModel, setRevenueModel] = useState('')
+    // let [marketSize, setMarketSize] = useState('')
+    // let [marketPlan, setMarketPlan] = useState('')
+    // let [proposal, setProposal] = useState('')
+    let [errorName, setErrorName] = useState('')
+    let [errorEmail, setErrorEmail] = useState('')
+    let [errorStae, setErrorState] = useState('')
+    let [errorCountry, setErrorCountry] = useState('')
+    let [errorCompName, setErrorCompName] = useState('')
 
 
 
     const doRegister = (e) => {
-
-        if ((
-            
-            name,
-            email,
-            state,
-            country,
-            dTeam,
-            dCompany,
-            companyName,
-            dProblemSolve,
-            unique,
-            valueProposition,
-            competitorsAndAdvantage,
-            revenueModel,
-            marketSize,
-            marketPlan,
-            proposal) === '') {
-
-            setError('All fields are required')
-        }
-
-
-        let data = {
-            id:user.user._id,
-            name,
-            email,
-            state,
-            country,
-            dTeam,
-            dCompany,
-            companyName,
-            dProblemSolve,
-            unique,
-            status: 'new',
-            valueProposition,
-            competitorsAndAdvantage,
-            revenueModel,
-            marketSize,
-            marketPlan,
-            proposal
-        }
-
         e.preventDefault();
-        let config=""
-        config = { headers: { 'authorization': 'Bearer ' + user.token } }
-        axios.post('http://localhost:3000/doRegister', data, config).then((response) => {
-            if (response.data.status)
-                navigate('/')
-        }).catch(error => {
-            alert(error)
-        })
+        if (name === '') setErrorName(' field is required')
+        else if (email === '') setErrorEmail(' field is required')
+        else if (state === '') setErrorState(' field is required')
+        else if (country === '') setErrorCountry(' field is required')
+        else if (companyName === '') setErrorCompName(' field is required')
+
+        // dTeam,
+        // dCompany,
+
+        // dProblemSolve,
+        // unique,
+        // valueProposition,
+        // competitorsAndAdvantage,
+        // revenueModel,
+        // marketSize,
+        // marketPlan,
+        // proposal
+        else {
+
+            let data = {
+                id: localStorage.getItem('user_id'),
+                name,
+                email,
+                state,
+                country,
+                companyName,
+                // dProblemSolve,
+                // unique,
+                status: 'new'
+                // valueProposition,
+                // competitorsAndAdvantage,
+                // revenueModel,
+                // marketSize,
+                // marketPlan,
+                // proposal
+            }
+
+
+            let config = ""
+            config = { headers: { 'authorization': 'Bearer ' + localStorage.getItem('token') } }
+            axios.post('doRegister', data, config).then((response) => {
+                if (response.data.status) {
+
+                    navigate('/')
+                }
+            }).catch(error => {
+                alert(error)
+            })
+        }
     }
 
     return (
-        <div className='bg-light'>
+        <div className=''>
             <div className='container '>
 
                 <div className='row '><br />
 
-                    <h3 className='text-center text-primary mt-5 pt-5'>Registeration Form</h3>
-                    <hr className='text-danger'></hr>
+                    <h3 className='text-center text-primary mt-5 pt-5'>Application Form</h3>
+                    <hr className='grad'></hr>
                     <form onSubmit={doRegister}>
                         <div className='mt-3 col-12 col-md-12 col-lg-12 col-xl-12 mb-auto '>
                             <div className='RegisterForm'>
-                                <label >Name</label>
-                                <input value={name} type="text" onChange={(e) => { setSubName(e.target.value) }} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                <label >Name </label>
+                                <span className='text-danger mt-3 '>{errorName}</span>
+                                <input value={name} type="text" onChange={(e) => {
+                                    setSubName(e.target.value)
+                                    setErrorName('')
+                                }} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
 
 
                                 <label>Email address</label>
-                                <input type="email" value={email} onChange={(e) => { setEamil(e.target.value) }} className="form-control mb-3 " id="exampleInputEmail2" aria-describedby="emailHelp" />
+                                <span className='text-danger mt-3 '>{errorEmail}</span>
+                                <input type="email" value={email} onChange={(e) => {
+                                    setEmail(e.target.value)
+                                    setErrorEmail('')
+                                }} className="form-control mb-3 " id="exampleInputEmail2" aria-describedby="emailHelp" />
 
 
                                 <label>State</label>
-                                <input type="text" className="form-control mb-3" value={state} onChange={(e) => { setState(e.target.value) }} id="exampleInputEmail3" aria-describedby="emailHelp" />
+                                <span className='text-danger mt-3 '>{errorStae}</span>
+                                <input type="text" className="form-control mb-3" value={state} onChange={(e) => {
+                                    setState(e.target.value)
+                                    setErrorState('')
+                                }} id="exampleInputEmail3" aria-describedby="emailHelp" />
 
 
                                 <label>Country</label>
-                                <input type="text" className="form-control mb-3" value={country} onChange={(e) => { setCountry(e.target.value) }} id="exampleInputEmail4" aria-describedby="emailHelp" />
+                                <span className='text-danger mt-3 '>{errorCountry}</span>
+                                <input type="text" className="form-control mb-3" value={country} onChange={(e) => {
+                                    setCountry(e.target.value)
+                                    setErrorCountry('')
+                                }} id="exampleInputEmail4" aria-describedby="emailHelp" />
 
 
                                 <label>Company Name</label>
-                                <input value={companyName} onChange={(e) => { setComapanyName(e.target.value) }} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                <span className='text-danger mt-3 '>{errorCompName}</span>
+                                <input value={companyName} onChange={(e) => {
+                                    setComapanyName(e.target.value)
+                                    setErrorCompName('')
+                                }} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
+
+
                             </div>
 
 
-                            <div className='RegisterFormTextarea mt-5'>
+                            {/* <div className='RegisterFormTextarea mt-5'>
                                 <div>
                                     <label>Describe Your Team And Backgound</label>
                                     <textarea value={dTeam} onChange={(e) => { setDTeam(e.target.value) }} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
@@ -151,10 +175,12 @@ function Register() {
 
 
                                 <label >Detailed Business Proposal</label>
-                                <textarea type="text" value={proposal} onChange={(e) => { setProposal(e.target.value) }} className="form-control mb-3" id="exampleInputPassword1" />
-                                <p className='text-danger mt-3 '>{Error}</p>
-                                <button type="submit " className="btn btn-primary mb-3 w-100">Submit</button>
-                            </div>
+                                <textarea type="text" value={proposal} onChange={(e) => { setProposal(e.target.value) }} className="form-control mb-3" id="exampleInputPassword1" /> */}
+
+
+                            <button type='submit' className="grad text-white  mb-3">Submit</button>
+
+                            {/* </div> */}
                         </div>
                     </form>
                 </div>

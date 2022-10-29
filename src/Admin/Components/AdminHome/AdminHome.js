@@ -1,10 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import './AdminHome.css'
 function AdminHome() {
    
     const navigate=useNavigate()
-    
+    useEffect(()=>{
+        if(!localStorage.getItem('AdminEmail')){
+            navigate('/admin')
+          }
+    })
 
     return (
         <div>
@@ -28,12 +32,19 @@ function AdminHome() {
                             <p className='p-2' onClick={()=>{
                                 navigate('/applicationlist')
                             }}><i className="fa-solid fa-user"></i> Application List</p>
-                            <p className='p-2'><i className="fa-solid fa-calendar-days"></i> Record Track</p>
-                            <p className='p-2'><i className="fa-solid fa-check-to-slot"></i> Booking Slots</p>
+                            <p className='p-2' onClick={()=>{
+                                navigate('/record')
+                            }}><i className="fa-solid fa-calendar-days"></i> Record Track</p>
+                            <p className='p-2' onClick={()=>{
+                                navigate('/slots')
+                            }}><i className="fa-solid fa-check-to-slot"></i> Booking Slots</p>
                             <p className='p-2'><i className="fa-solid fa-clipboard-list"></i> Schedule Events</p>
                             <p className='p-2'><i className="fa-solid fa-film"></i> Videos</p>
                             <p className='p-2'><i className="fa-solid fa-money-check"></i> Payments</p>
-                            <p className='p-2'><i className="fa-solid fa-right-from-bracket"></i> Logout</p>
+                            <p className='p-2' onClick={()=>{
+                                localStorage.removeItem('AdminEmail') 
+                                 navigate('/admin')
+                            }}><i className="fa-solid fa-right-from-bracket"></i> Logout</p>
                             </div>
                         
 
