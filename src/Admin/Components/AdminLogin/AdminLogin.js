@@ -1,5 +1,5 @@
 import {React, useState} from 'react'
-import axios from 'axios'
+import axios from '../../../axios'
 import { useNavigate } from 'react-router-dom'
 // import { Link } from 'react-router-dom'
 import './AdminLogin.css'
@@ -11,7 +11,7 @@ function AdminLogin() {
     const doAdminLogin=(e)=>{
         e.preventDefault();
         let data={email,password}
-        axios.post('http://localhost:3000/doAdminLogin',data).then((response)=>{
+        axios.post('admin/doAdminLogin',data).then((response)=>{
             if(response.data.status){
                 // let token=response.data.user.token
                   let admin=response.data.admin.admin

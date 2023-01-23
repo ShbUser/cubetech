@@ -1,1 +1,8 @@
 
+.grad {
+    color: white;
+    background-image: linear-gradient(to right, black, rgba(255,0,0,1));
+    
+    /* background-color: red; 
+    background-image: linear-gradient(red, yellow); */
+  }

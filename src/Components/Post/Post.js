@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axios from '../../axios'
 //import { UserContext } from '../../Store/Context';, useContext
 import { useNavigate } from 'react-router-dom'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import './Post.css'
 function Post() {
   const navigate = useNavigate()
-  const [progress, setProgress] = useState('')
+  const [progress, setProgress] = useState('0')
+  const [progressName, setProgressName] = useState('')
+  // const [userid,setUserId]=useState({})
+
   //let { user } = useContext(UserContext) 
   useEffect(() => {
 
@@ -12,54 +17,75 @@ function Post() {
       navigate('/login')
     }
 
-
     if (localStorage.getItem('user_id')) {
       let userid = { userid: localStorage.getItem('user_id') }
-      axios.post('getStatus', userid).then((response) => {
-        if (response.data.status === "new") {
-          setProgress('25')
-        }
-        else if (response.data.status === "Processing") {
-          setProgress('50')
-        }
-        else if (response.data.status === "Approved") {
-          setProgress('75')
-        }
-        else if (response.data.status === "Booked") {
-          setProgress('100')
+      //alert(userid)
+      axios.get('isRejected/' + userid.userid).then((response) => {
+        console.log(response.data.reject);
+        if (response.data.reject === "rejected") {
 
+          setProgressName('Sorry !... You are rejected.')
         }
       })
+
+      if (progressName === '') {
+        axios.post('getStatus', userid).then((response) => {
+          if (response.data.status === "new") {
+            setProgress('25')
+            setProgressName('Pending...')
+          }
+          else if (response.data.status === "Approve") {
+            setProgress('50')
+            setProgressName('Processing...')
+          }
+          else if (response.data.status === "Approved") {
+            setProgress('75')
+            setProgressName('Approved')
+          }
+          else if (response.data.status === "Booked") {
+            setProgress('100')
+            setProgressName('Booked')
+
+          }
+        })
+      }
     }
 
   })
+
+
 
   return (
     <div>
       <div className='container mt-5'>
         <div className='row '>
           <div className='col-md-12'>
-            <img src='../../assets/images/incub.webp' alt='img' className='w-100 h-75' />
-
-            <div className="progress w-100 mt-5">
-
-              {progress === '25' ? <div className="progress-bar  w-25" role="progressbar" aria-valuenow='25' aria-valuemin="0" aria-valuemax="100">Pending...</div> : ''}
-              {progress === '50' ? <div className="progress-bar bg-warning w-50" role="progressbar" aria-valuenow='50' aria-valuemin="0" aria-valuemax="100">Under Processing...</div> : ''}
-              {progress === '75' ? <div className="progress-bar  w-75" role="progressbar" aria-valuenow='75' aria-valuemin="0" aria-valuemax="100">Approved</div> : ''}
-              {progress === '100' ? <div className="progress-bar bg-success w-100" role="progressbar" aria-valuenow='100' aria-valuemin="0" aria-valuemax="100">Completed</div> : ''}
-
-
-
-
-
+            <div className='row text-center '>
+              <span className=' progressBarLabel'>{progressName} </span>
             </div>
-           
 
-           
+            <div className='progressBar'>
+
+              <CircularProgressbar
+
+                value={progress}
+                text={`${progress}%`}
+                styles={buildStyles({
+                  strokeLinecap: 'round',
+                  pathTransitionDuration: 3,
+                  pathColor: `rgba(62, 152, 199)`,
+                  textColor: 'black',
+                  trailColor: 'red',
+                  backgroundColor: '#3e98c7',
+                })}
+              />;
+            </div>
+
           </div>
         </div>
 
-      </div>
+      </div >
+
 
     </div>
   )

@@ -13,7 +13,7 @@ function AdminHome() {
     return (
         <div>
             <div className='adminPanel'>
-            <div className='dixed-top bg-dark text-white w-100 h-50'><h4>CUBTECH</h4>
+            <div className='dixed-top  bg-dark text-white w-100 h-50'><h4>CUBETECH</h4>
             <button className="btn btn-secondary ms-4" type="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                   <span className='bg-white'> </span>
                   <i className="fa-solid fa-bars"></i>

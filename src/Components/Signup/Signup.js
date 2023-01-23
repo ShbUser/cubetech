@@ -2,6 +2,8 @@ import { React, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../Store/Context'
 import axios from '../../axios'
+import swal from 'sweetalert';
+
 import './Signup.css'
 function Signup() {
     const [wrong, setWrong] = useState('')
@@ -29,7 +31,21 @@ function Signup() {
                 let userid=localStorage.getItem('user_id')
                 let userDet = { username, token,userid}
                 setUser(userDet)
-
+                swal({
+                    title: "Success !",
+                    text: "",
+                    icon: "success",
+                    timer: 1000,
+                    buttons:false,
+                }).then(
+                    function () { },
+                    // handling the promise rejection
+                    function (dismiss) {
+                        if (dismiss === 'timer') {
+                            //console.log('I was closed by the timer')
+                        }
+                    }
+                )
                 navigate('/')
             }
             // setUser(response.data.user.username)

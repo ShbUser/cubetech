@@ -12,11 +12,14 @@ function Header() {
       axios.get('isNewUser/' + localStorage.getItem('user_id')).then((response) => {
 
         if (response.data.stat) {
-          setIsNewUser('')
+          // alert(localStorage.getItem('status'))
+          // if (localStorage.getItem('status') === "rejected") {
+            setIsNewUser('')
 
-        } else {
-          setIsNewUser('Application')
+          } else {
+            setIsNewUser('Application')
 
+          // }
         }
       })
     }
